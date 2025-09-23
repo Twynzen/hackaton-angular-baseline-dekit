@@ -1,0 +1,14 @@
+<div class="popover-demo">
+  <button popovertarget="my-popover">Show Popover</button>
+
+  <div id="my-popover" popover="auto">
+    <h3>Popover Content</h3>
+    <p>This popover demonstrates the HTML popover attribute.</p>
+    <button popovertarget="my-popover" popovertargetaction="hide">Close</button>
+  </div>
+
+  <!-- Angular-style popover binding -->
+  <div [popover]="popoverConfig">
+    Angular popover binding
+  </div>
+</div>

@@ -1,0 +1,59 @@
+/* Feature component styles with modern CSS */
+
+.feature-container {
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Modern CSS properties */
+.feature-container {
+  container-type: inline-size;
+  aspect-ratio: 16 / 9;
+}
+
+.title {
+  text-wrap: pretty;
+  font-size: 1.5rem;
+}
+
+.balanced-text {
+  text-wrap: balance;
+  max-width: 500px;
+}
+
+/* Modern selectors */
+.form:has(input:invalid) {
+  border-left: 3px solid red;
+}
+
+.container:has(> .warning) {
+  background-color: yellow;
+}
+
+/* Container queries */
+@container (min-width: 300px) {
+  .responsive-element {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+/* Modern pseudo-selectors */
+.nav-item:is(.active, .current) {
+  font-weight: bold;
+  color: blue;
+}
+
+.input:where(.required) {
+  border: 2px solid orange;
+}
+
+/* Grid areas */
+.layout {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "nav main"
+    "footer footer";
+  gap: 1rem;
+}

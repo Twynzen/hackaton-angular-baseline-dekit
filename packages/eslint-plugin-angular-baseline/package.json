@@ -1,0 +1,23 @@
+{
+  "name": "@angular-baseline-devkit/eslint-plugin",
+  "version": "0.1.0",
+  "description": "ESLint plugin for Angular Baseline compatibility",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@angular-baseline-devkit/analyzer-core": "0.1.0",
+    "@typescript-eslint/utils": "^6.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/rule-tester": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  }
+}

@@ -1,0 +1,27 @@
+<div class="feature-container">
+  <h2>Feature Component</h2>
+
+  <!-- Modern HTML attributes -->
+  <div class="loading-demo">
+    <img src="image.jpg" loading="lazy" alt="Lazy loaded image">
+  </div>
+
+  <form class="modern-form">
+    <fieldset [inert]="isFormDisabled">
+      <legend>User Information</legend>
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+    </fieldset>
+  </form>
+
+  <!-- Popover with Angular bindings -->
+  <div [popover]="popoverMode" class="info-popover">
+    <h3>Information</h3>
+    <p>This popover is controlled by Angular.</p>
+  </div>
+
+  <div class="actions">
+    <button (click)="clipboardApi()">Copy to Clipboard</button>
+    <button (click)="resizeObserver()">Setup Resize Observer</button>
+  </div>
+</div>

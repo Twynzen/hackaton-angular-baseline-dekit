@@ -1,0 +1,11 @@
+<div class="modal-container">
+  <dialog id="info-dialog">
+    <h2>Information</h2>
+    <p>This is a dialog element that should be detected for baseline compatibility.</p>
+    <button onclick="this.closest('dialog').close()">Close</button>
+  </dialog>
+
+  <button onclick="document.getElementById('info-dialog').showModal()">
+    Show Dialog
+  </button>
+</div>

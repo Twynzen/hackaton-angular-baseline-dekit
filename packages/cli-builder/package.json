@@ -1,0 +1,25 @@
+{
+  "name": "@angular-baseline-devkit/cli-builder",
+  "version": "0.1.0",
+  "description": "Angular CLI Builder for baseline analysis",
+  "main": "dist/index.js",
+  "bin": {
+    "baseline-devkit": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@angular-baseline-devkit/analyzer-core": "0.1.0",
+    "@angular-baseline-devkit/reporters": "0.1.0",
+    "@angular-devkit/architect": "^0.1700.0",
+    "commander": "^11.0.0",
+    "glob": "^10.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

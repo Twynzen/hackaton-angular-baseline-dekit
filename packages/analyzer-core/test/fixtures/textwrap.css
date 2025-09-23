@@ -1,0 +1,35 @@
+/* CSS text-wrap test cases */
+
+.title {
+  text-wrap: balance;
+  font-size: 2rem;
+  font-weight: bold;
+  max-width: 500px;
+}
+
+.heading {
+  text-wrap: pretty;
+  line-height: 1.4;
+}
+
+.no-wrap {
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Combined with other properties */
+.balanced-heading {
+  text-wrap: balance;
+  font-family: 'Helvetica', sans-serif;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* In media query */
+@media (min-width: 768px) {
+  .responsive-title {
+    text-wrap: balance;
+    font-size: 3rem;
+  }
+}

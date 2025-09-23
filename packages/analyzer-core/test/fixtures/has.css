@@ -1,0 +1,33 @@
+/* CSS :has() selector test cases */
+
+.card {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 8px;
+}
+
+/* Detect cards that contain error elements */
+.card:has(.error) {
+  border: 1px solid red;
+  background-color: #ffebee;
+}
+
+/* Detect forms that have invalid inputs */
+form:has(input:invalid) {
+  border-left: 3px solid red;
+}
+
+/* Detect containers with specific content */
+.container:has(> .warning) {
+  background-color: #fff3cd;
+}
+
+/* Complex :has() selector */
+.article:has(h2 + p) {
+  margin-bottom: 2rem;
+}
+
+/* :has() with pseudo-classes */
+.nav:has(a:hover) {
+  background-color: #f8f9fa;
+}

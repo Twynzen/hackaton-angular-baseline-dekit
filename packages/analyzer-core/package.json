@@ -1,0 +1,28 @@
+{
+  "name": "@angular-baseline-devkit/analyzer-core",
+  "version": "0.1.0",
+  "description": "Core analysis engine for Angular Baseline compatibility",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "typescript": "^5.0.0",
+    "ts-morph": "^20.0.0",
+    "@angular/compiler": "^17.0.0",
+    "postcss": "^8.4.0",
+    "css-tree": "^2.3.0",
+    "web-features": "^0.8.0",
+    "browserslist": "^4.22.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.9.0"
+  }
+}

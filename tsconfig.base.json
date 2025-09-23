@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020", "DOM"],
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@angular-baseline-devkit/analyzer-core": ["packages/analyzer-core/src"],
+      "@angular-baseline-devkit/eslint-plugin": ["packages/eslint-plugin-angular-baseline/src"],
+      "@angular-baseline-devkit/cli-builder": ["packages/cli-builder/src"],
+      "@angular-baseline-devkit/reporters": ["packages/reporters/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
