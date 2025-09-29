@@ -1,0 +1,75 @@
+/* ⚠️ PROBLEMA 1: :has() selector - No funciona en Firefox */
+.card:has(.active) {
+  background-color: #007bff;
+  border: 2px solid #0056b3;
+}
+
+.container:has(> .warning) {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+}
+
+/* ⚠️ PROBLEMA 2: :is() y :where() - Soporte limitado */
+:is(header, footer, main) {
+  padding: 1rem;
+}
+
+:where(.button, .link):hover {
+  text-decoration: underline;
+}
+
+/* ⚠️ PROBLEMA 3: text-wrap: balance - Muy nuevo (2023) */
+.headline {
+  text-wrap: balance;
+  max-width: 60ch;
+}
+
+.description {
+  text-wrap: pretty;
+  line-height: 1.6;
+}
+
+/* ⚠️ PROBLEMA 4: Container Queries - Chrome 105+, no Firefox < 110 */
+@container (min-width: 400px) {
+  .responsive-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@container (max-width: 399px) {
+  .responsive-card {
+    display: block;
+  }
+}
+
+/* ⚠️ PROBLEMA 5: CSS Grid subgrid - Limitado */
+.grid-parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-child {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+/* ⚠️ PROBLEMA 6: accent-color - No en Safari < 15.4 */
+input[type="checkbox"] {
+  accent-color: #007bff;
+}
+
+/* ⚠️ PROBLEMA 7: aspect-ratio - No en Safari < 15 */
+.video-container {
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+/* Estilos normales para contrastar */
+.normal-styles {
+  color: #333;
+  font-size: 16px;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}

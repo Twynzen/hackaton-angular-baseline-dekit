@@ -1,215 +1,342 @@
-# 📊 Angular Baseline DevKit - Análisis Completo del Proyecto
+# 🤖 **CLAUDE.md - Developer & AI Assistant Guide**
 
-## 🎯 Resumen Ejecutivo
+## 🎯 **About This Document**
 
-**Angular Baseline DevKit** es una herramienta de análisis para proyectos Angular que verifica la compatibilidad con las características web modernas (Baseline). Este proyecto es una entrada para el Baseline Tooling Hackathon, enfocado en ayudar a desarrolladores a adoptar características web modernas de manera segura.
+This document serves as a comprehensive guide for:
+- **Human developers** who clone this repository
+- **AI assistants** (Claude, GPT, etc.) working with this codebase
+- **Contributors** looking to extend the project
 
-## 📁 Estructura del Proyecto
-
-```
-angular-baseline-devkit/
-├── packages/                    # Paquetes npm del proyecto (monorepo)
-│   ├── analyzer-core/          # Motor de análisis principal
-│   ├── cli-builder/            # Herramienta CLI
-│   ├── eslint-plugin-angular-baseline/  # Plugin ESLint
-│   └── reporters/              # Generadores de reportes
-├── apps/
-│   └── demo-angular/           # Aplicación Angular de demostración
-├── docs/                       # Documentación técnica
-│   ├── architecture.md         # Arquitectura del sistema
-│   └── mapping.md             # Mapeo de características
-├── test-mvp.js                # Script de pruebas MVP
-├── README.md                  # Documentación principal
-├── package.json               # Configuración del workspace
-└── tsconfig.base.json         # Configuración TypeScript base
-```
-
-## ✅ Estado Actual del Proyecto
-
-### Componentes Implementados
-
-1. **Core Analyzer** (`@angular-baseline-devkit/analyzer-core`)
-   - ✅ Análisis de APIs TypeScript/JavaScript
-   - ✅ Análisis de templates HTML Angular
-   - ✅ Análisis de características CSS
-   - ✅ Mapeo con datos de web-features
-
-2. **CLI Tool** (`@angular-baseline-devkit/cli-builder`)
-   - ✅ Comando `baseline-devkit analyze`
-   - ✅ Generación de reportes JSON
-   - ✅ Salida por consola
-
-3. **ESLint Plugin** (`@angular-baseline-devkit/eslint-plugin`)
-   - ✅ Regla `baseline/use-baseline`
-   - ✅ Configuración de targets (widely, newly, 2023, etc.)
-
-4. **Reporters** (`@angular-baseline-devkit/reporters`)
-   - ✅ Reporter JSON
-   - ✅ Reporter de consola
-
-### Características Detectables
-
-#### APIs JavaScript/TypeScript
-- `document.startViewTransition()` - View Transitions API
-- `new IntersectionObserver()` - Intersection Observer API
-- `navigator.clipboard` - Async Clipboard API
-- `new ResizeObserver()` - Resize Observer API
-
-#### Atributos HTML
-- `popover` - Popover API
-- `inert` - Inert attribute
-- `loading="lazy"` - Lazy loading
-
-#### Características CSS
-- `:has()` selector
-- `:is()` y `:where()` selectors
-- `text-wrap: balance|pretty`
-- Container queries (`@container`)
-- Propiedades modernas de Grid
-
-## 🔧 Tecnologías Utilizadas
-
-- **TypeScript 5.0+** - Lenguaje principal
-- **Node.js 18+** - Runtime
-- **npm workspaces** - Gestión de monorepo
-- **Vitest** - Framework de testing
-- **ESLint** - Linting de código
-- **web-features** - Datos de compatibilidad Baseline
-
-## 🚀 Comandos Disponibles
-
-```bash
-# Instalar dependencias
-npm install
-
-# Construir todos los paquetes
-npm run build
-
-# Ejecutar tests
-npm test
-
-# Ejecutar linter
-npm run lint
-
-# Formatear código
-npm run format
-
-# Analizar un proyecto
-npx baseline-devkit analyze ./ruta/proyecto --target widely
-```
-
-## 📈 Métricas del MVP
-
-- **Paquetes implementados**: 4
-- **Características detectables**: 12+
-- **Cobertura de tests**: Por implementar
-- **Targets soportados**: widely, newly, años específicos (2023, 2024, etc.)
-
-## 🔍 Problemas Identificados
-
-### ⚠️ Falta Implementar
-
-1. **Archivo .gitignore**
-   - No existe archivo .gitignore
-   - Necesario para excluir node_modules y archivos de build
-
-2. **Dependencias no instaladas**
-   - El proyecto no tiene node_modules instalado
-   - Necesario ejecutar `npm install` antes del primer build
-
-3. **Tests unitarios**
-   - Los tests están definidos pero no hay evidencia de ejecución
-   - Falta configuración de cobertura
-
-4. **Licencia**
-   - No hay archivo LICENSE
-   - Requerido por las reglas del hackathon
-
-### ✅ Puntos Fuertes
-
-1. **Arquitectura modular**
-   - Separación clara de responsabilidades
-   - Uso de monorepo con npm workspaces
-
-2. **Integración con Baseline**
-   - Uso correcto del paquete web-features
-   - Mapeo apropiado de características
-
-3. **Múltiples formatos de salida**
-   - CLI, ESLint, y API programática
-   - Reportes JSON estructurados
-
-## 📋 Próximos Pasos Recomendados
-
-### Inmediatos (Para subir a GitHub)
-
-1. ✅ Crear archivo .gitignore
-2. ✅ Agregar archivo LICENSE (MIT o Apache 2.0)
-3. ✅ Inicializar repositorio git
-4. ✅ Hacer commit inicial con mensaje descriptivo
-5. ✅ Configurar remote y push
-
-### Post-MVP (Mejoras futuras)
-
-1. **Testing**
-   - Implementar suite completa de tests
-   - Agregar cobertura de código
-   - Tests de integración end-to-end
-
-2. **Documentación**
-   - Agregar ejemplos de uso más detallados
-   - Documentar API programática
-   - Guías de contribución
-
-3. **Características adicionales**
-   - Soporte para más características Baseline
-   - Integración con Angular CLI
-   - Extension para VS Code
-   - Dashboard web para visualización
-
-4. **CI/CD**
-   - Configurar GitHub Actions
-   - Publicación automática a npm
-   - Análisis de calidad de código
-
-## 🏆 Alineación con Criterios del Hackathon
-
-### ✅ Requisitos Cumplidos
-
-1. **Integración con Baseline data** - Usa web-features npm package
-2. **Herramienta para desarrolladores** - ESLint plugin + CLI
-3. **Open Source** - Código disponible públicamente
-4. **Funcional** - MVP working con demo app
-5. **Video demostración** - Por crear
-6. **Documentación** - README completo
-
-### ⚠️ Pendientes para Submission
-
-1. **LICENSE file** - Requerido
-2. **Video demo** - 3 minutos máximo
-3. **Testing del MVP** - Verificar funcionamiento
-4. **URL del proyecto hosteado** - Si aplica
-
-## 📊 Estimación de Impacto
-
-- **Desarrolladores beneficiados**: Potencialmente miles de usuarios Angular
-- **Problema resuelto**: Gap entre características modernas y soporte de navegadores
-- **Innovación**: Primera herramienta específica para Angular + Baseline
-- **Utilidad**: Integración directa con flujo de trabajo existente (ESLint)
-
-## 🔒 Consideraciones de Seguridad
-
-- No se detectan vulnerabilidades evidentes
-- No hay manejo de datos sensibles
-- Análisis estático sin ejecución de código usuario
-- Dependencias actualizadas y confiables
-
-## 💡 Conclusión
-
-El proyecto está en un estado MVP sólido con la arquitectura core implementada. Los componentes principales funcionan y cumplen con los requisitos del hackathon. Las mejoras pendientes son principalmente de pulido y documentación. El proyecto está listo para ser subido a GitHub tras agregar los archivos faltantes (.gitignore, LICENSE).
+This is an **open source project powered by Claude** that provides automated browser compatibility analysis for Angular applications.
 
 ---
 
-*Documento generado el: 2025-09-23*
-*Analista: Claude 3.5*
-*Estado: LISTO PARA PUBLICACIÓN (con ajustes menores)*
+## 🏗️ **Project Overview**
+
+**Angular Baseline DevKit** is a professional-grade monorepo that analyzes Angular projects for web platform compatibility issues using official Baseline data from the `web-features` package.
+
+### **🎯 Core Mission**
+Help Angular developers avoid browser compatibility issues by detecting modern web features that might not work across all target browsers.
+
+### **🏆 Hackathon Context**
+This project was created for the [Baseline Tooling Hackathon](https://baseline.devpost.com/) to demonstrate innovative use of Baseline data in developer tooling.
+
+---
+
+## 📦 **Architecture Deep Dive**
+
+### **Monorepo Structure**
+```
+angular-baseline-devkit/
+├── packages/                           # Core toolkit packages
+│   ├── analyzer-core/                 # Main analysis engine
+│   │   ├── src/analyzer.ts           # Orchestrates all analyzers
+│   │   ├── src/analyzers/            # Specific file type analyzers
+│   │   │   ├── ts-analyzer.ts        # TypeScript/JavaScript analysis
+│   │   │   ├── template-analyzer.ts  # Angular template analysis
+│   │   │   └── css-analyzer.ts       # CSS feature analysis
+│   │   ├── src/baseline-provider.ts  # Baseline data interface
+│   │   ├── src/feature-mapper.ts     # Maps features to diagnostics
+│   │   └── src/types.ts             # TypeScript interfaces
+│   │
+│   ├── cli-builder/                  # Command line interface
+│   │   └── src/cli.ts               # CLI implementation
+│   │
+│   ├── eslint-plugin-angular-baseline/ # ESLint integration
+│   │   └── src/rules/use-baseline.ts   # ESLint rule implementation
+│   │
+│   └── reporters/                    # Output formatting
+│       └── src/json-reporter.ts     # JSON report generation
+│
+├── apps/
+│   └── demo-angular/                 # Example Angular application
+│       └── src/app/                 # Contains intentionally problematic code
+│
+├── demo-project/                     # Additional demo files
+│   └── src/app/                     # More compatibility test cases
+│
+└── docs/                            # Technical documentation
+```
+
+### **🔄 Analysis Flow**
+1. **Input**: Angular project directory
+2. **Discovery**: Find .ts, .html, .css files
+3. **Analysis**: Parse and detect modern web features
+4. **Mapping**: Cross-reference with web-features database
+5. **Reporting**: Generate diagnostic reports with suggestions
+
+---
+
+## 🛠️ **Development Guide**
+
+### **Prerequisites**
+- Node.js 18.0.0+
+- npm 8.0.0+
+- TypeScript 5.0.0+
+
+### **Quick Setup**
+```bash
+# Clone and install
+git clone https://github.com/Twynzen/hackaton-angular-baseline-dekit.git
+cd angular-baseline-devkit
+npm install
+
+# Build all packages
+npm run build
+
+# Test the tool
+npx @angular-baseline-devkit/cli analyze ./demo-project
+```
+
+### **Package Development**
+
+#### **Adding New Feature Detection**
+
+1. **Update Feature Registry** (`packages/analyzer-core/src/feature-registry.ts`):
+```typescript
+export const FEATURE_PATTERNS = {
+  // Add your pattern here
+  'api.CustomAPI.method': {
+    pattern: /CustomAPI\.method\s*\(/g,
+    type: 'javascript',
+    description: 'Custom API method detection'
+  }
+};
+```
+
+2. **Extend Appropriate Analyzer**:
+- **JavaScript/TypeScript**: `packages/analyzer-core/src/analyzers/ts-analyzer.ts`
+- **HTML Templates**: `packages/analyzer-core/src/analyzers/template-analyzer.ts`
+- **CSS**: `packages/analyzer-core/src/analyzers/css-analyzer.ts`
+
+3. **Add Test Cases** in `packages/analyzer-core/test/fixtures/`
+
+#### **Creating New Output Formats**
+
+1. **Create Reporter** in `packages/reporters/src/`:
+```typescript
+export class CustomReporter {
+  generate(report: AnalysisReport): string {
+    // Your formatting logic
+  }
+}
+```
+
+2. **Update CLI** to support new format in `packages/cli-builder/src/cli.ts`
+
+---
+
+## 🤖 **AI Assistant Instructions**
+
+### **When Working with This Codebase**
+
+1. **Understand the Context**: This is a compatibility analysis tool, not a typical Angular app
+2. **Respect the MVP Scope**: Focus on core functionality over feature creep
+3. **Maintain TypeScript Standards**: Always use proper typing
+4. **Follow Monorepo Patterns**: Each package has specific responsibilities
+5. **Test Against Real Cases**: Use `demo-project/` for testing changes
+
+### **Common Tasks & Patterns**
+
+#### **Adding Feature Detection**
+- **Always update** `feature-registry.ts` first
+- **Write tests** in `test/fixtures/`
+- **Verify with** `web-features` database for accuracy
+
+#### **Debugging Analysis Issues**
+- Check `baseline-provider.ts` for data mapping
+- Verify regex patterns in feature registry
+- Test with `demo-project/` known problematic code
+
+#### **Extending Reports**
+- Start with `types.ts` interface definitions
+- Implement in appropriate reporter
+- Update CLI to expose new options
+
+### **Code Quality Standards**
+```typescript
+// ✅ Good: Proper typing and error handling
+async analyzeFile(filePath: string): Promise<FeatureEvidence[]> {
+  try {
+    const content = await fs.readFile(filePath, 'utf-8');
+    return this.parseContent(content, filePath);
+  } catch (error) {
+    console.warn(`Failed to analyze ${filePath}:`, error);
+    return [];
+  }
+}
+
+// ❌ Bad: No error handling or typing
+function analyzeFile(filePath) {
+  const content = fs.readFileSync(filePath);
+  return parseContent(content);
+}
+```
+
+---
+
+## 🧪 **Testing Strategy**
+
+### **Test Pyramid**
+1. **Unit Tests**: Individual analyzer functions
+2. **Integration Tests**: Full analysis pipeline
+3. **Fixture Tests**: Known problematic code samples
+4. **CLI Tests**: Command-line interface
+
+### **Running Tests**
+```bash
+# All tests
+npm test
+
+# Specific package
+cd packages/analyzer-core && npm test
+
+# With coverage
+npm run test:coverage
+```
+
+### **Test Data**
+The `test/fixtures/` directory contains real-world examples of problematic code:
+- `view-transitions.ts` - View Transitions API usage
+- `has.css` - CSS :has() selector usage
+- `popover.html` - HTML popover attribute
+
+---
+
+## 🌟 **Contributing Guidelines**
+
+### **For Human Contributors**
+
+1. **Fork & Branch**: Create feature branches from `master`
+2. **Follow Conventions**: Use existing code style and patterns
+3. **Add Tests**: Every new feature needs test coverage
+4. **Update Docs**: Document new functionality
+5. **PR Process**: Submit with clear description and test evidence
+
+### **Feature Request Process**
+1. **Check Issues**: Look for existing requests
+2. **Validate with Baseline**: Ensure feature is in `web-features` database
+3. **Scope Appropriately**: Focus on Angular-specific needs
+4. **Provide Examples**: Show real-world problematic code
+
+### **Bug Report Template**
+```markdown
+**Environment:**
+- Node.js version:
+- Package version:
+- Operating System:
+
+**Input:**
+- File type (TS/HTML/CSS):
+- Code sample that fails:
+
+**Expected vs Actual:**
+- Expected detection: [feature name]
+- Actual result: [what happened]
+
+**Additional Context:**
+- Browser support data from MDN/caniuse
+```
+
+---
+
+## 📚 **AI Learning Resources**
+
+### **Understanding Web Compatibility**
+- [MDN Browser Compatibility](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- [Can I Use Database](https://caniuse.com/)
+- [Web Features Repository](https://github.com/web-platform-dx/web-features)
+- [Baseline 2023 Announcement](https://developer.mozilla.org/en-US/blog/baseline-unified-view-stable-web-features/)
+
+### **Angular-Specific Patterns**
+- Components use templates (`.html`) and styles (`.css/.scss`)
+- Services inject dependencies and handle business logic
+- Modern Angular uses standalone components and signals
+- Lifecycle hooks for resource management
+
+### **TypeScript AST Analysis**
+- Use TypeScript compiler API for precise analysis
+- Regex patterns for simple detection
+- Consider context (inside functions, conditional blocks, etc.)
+
+---
+
+## 🎯 **Project Goals & Non-Goals**
+
+### **Goals** ✅
+- Detect modern web features in Angular code
+- Provide actionable compatibility information
+- Integrate with existing developer workflows (ESLint, CLI)
+- Support multiple output formats
+- Maintain high accuracy with official Baseline data
+
+### **Non-Goals** ❌
+- Replace browser testing (complement, don't replace)
+- Support non-Angular frameworks (out of scope)
+- Runtime polyfill injection (detection only)
+- Visual regression testing (different problem space)
+
+---
+
+## 💡 **Future Enhancement Ideas**
+
+### **Phase 2 Possibilities**
+- **VS Code Extension**: Real-time detection in editor
+- **Angular CLI Integration**: `ng add` schematic support
+- **CI/CD Templates**: GitHub Actions, GitLab CI examples
+- **Custom Rule Builder**: GUI for creating detection rules
+
+### **Advanced Features**
+- **Severity Configuration**: Team-specific compatibility policies
+- **Progressive Enhancement**: Suggest fallback patterns
+- **Performance Impact**: Analyze modern feature adoption benefits
+- **Framework Updates**: Track Angular version compatibility
+
+---
+
+## 🤝 **Community & Support**
+
+### **Getting Help**
+- **GitHub Issues**: Bug reports and feature requests
+- **Discussions**: Architecture questions and ideas
+- **Hackathon Discord**: Real-time community support
+
+### **Recognition**
+This project is **powered by Claude AI** and represents a collaboration between human creativity and AI capabilities. Contributors from both the human and AI communities are welcome and appreciated.
+
+---
+
+## 📄 **License & Legal**
+
+**MIT License** - See `LICENSE` file for full terms.
+
+### **Attribution**
+- Built with [web-features](https://github.com/web-platform-dx/web-features) data
+- Created for the Baseline Tooling Hackathon
+- Powered by Claude AI assistance
+
+---
+
+## 🚀 **Quick Reference Commands**
+
+```bash
+# Development
+npm install                    # Install dependencies
+npm run build                 # Build all packages
+npm test                      # Run all tests
+npm run lint                  # Check code quality
+
+# Usage
+npx baseline-devkit analyze   # Analyze current directory
+npx baseline-devkit --help    # Show all options
+
+# Package-specific
+cd packages/analyzer-core && npm test   # Test core engine
+cd packages/cli-builder && npm run dev  # Develop CLI
+```
+
+---
+
+*This document is maintained by the project team and updated regularly. Last update: $(date)*
+
+**🤖 AI Assistants**: This codebase is designed to be AI-friendly. When in doubt, refer to existing patterns and test thoroughly with the provided fixtures.
