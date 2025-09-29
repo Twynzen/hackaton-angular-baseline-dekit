@@ -14,8 +14,10 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@types/css-tree": "^2.3.10",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/utils": "^8.44.1",
     "eslint": "^8.0.0",
     "prettier": "^3.0.0",
     "typescript": "^5.0.0",

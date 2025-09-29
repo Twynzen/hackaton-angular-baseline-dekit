@@ -130,7 +130,7 @@ export class AngularBaselineAnalyzer {
   validateFeatureRegistry(): { valid: string[]; invalid: string[] } {
     const { getAllFeatures } = require('./feature-registry');
     const features = getAllFeatures();
-    const featureIds = features.map(f => f.featureId);
+    const featureIds = features.map((f: any) => f.featureId);
 
     return this.baselineProvider.validateFeatureIds(featureIds);
   }

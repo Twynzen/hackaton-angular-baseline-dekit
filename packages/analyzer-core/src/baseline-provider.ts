@@ -1,4 +1,4 @@
-import { features } from 'web-features';
+import features from 'web-features';
 import { BaselineStatus } from './types';
 
 export interface BaselineInfo {
@@ -34,7 +34,7 @@ export class BaselineProvider {
 
     const result: BaselineInfo = {
       status,
-      supportedBrowsers: feature.status?.supported ? Object.keys(feature.status.supported) : undefined,
+      supportedBrowsers: feature.status?.support ? Object.keys(feature.status.support) : undefined,
       year: feature.status?.baseline_low_date ? new Date(feature.status.baseline_low_date).getFullYear() : undefined
     };
 

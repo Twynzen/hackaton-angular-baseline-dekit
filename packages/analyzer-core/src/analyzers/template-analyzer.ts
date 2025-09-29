@@ -12,7 +12,7 @@ export class TemplateAnalyzer {
         collectCommentNodes: false
       });
 
-      if (parsed.errors.length > 0) {
+      if (parsed.errors && parsed.errors.length > 0) {
         console.warn(`Template parsing errors in ${filePath}:`, parsed.errors);
       }
 

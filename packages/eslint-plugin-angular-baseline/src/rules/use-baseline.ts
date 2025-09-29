@@ -10,8 +10,7 @@ export const useBaseline = createRule({
   meta: {
     type: 'problem',
     docs: {
-      description: 'Enforce baseline-compatible web features usage',
-      recommended: 'error'
+      description: 'Enforce baseline-compatible web features usage'
     },
     fixable: undefined,
     schema: [
@@ -20,7 +19,7 @@ export const useBaseline = createRule({
         properties: {
           target: {
             oneOf: [
-              { enum: ['widely', 'newly'] },
+              { type: 'string', enum: ['widely', 'newly'] },
               { type: 'number', minimum: 2020 }
             ]
           },
@@ -43,9 +42,9 @@ export const useBaseline = createRule({
   defaultOptions: [{ target: 'widely' }],
   create(context, [options]) {
     const config: BaselineConfig = {
-      target: options.target || 'widely',
-      strict: options.strict || false,
-      allow: options.allow || []
+      target: (options.target || 'widely') as 'widely' | 'newly',
+      strict: false,
+      allow: []
     };
 
     const tsAnalyzer = new TSAnalyzer();
