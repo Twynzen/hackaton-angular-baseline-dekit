@@ -18,6 +18,23 @@ npx baseline-devkit analyze ./my-angular-app --target widely --output json
 npm install @angular-baseline-devkit/eslint-plugin
 ```
 
+## 🎬 **Quick Demo (Video Ready!)**
+
+Want to see it in action immediately? We have a demo project ready:
+
+```bash
+# Switch to demo branch with pre-built problematic code
+git checkout demo
+cd demo-project
+
+# Run analysis - expect ~15-20 compatibility warnings
+npx @angular-baseline-devkit/cli analyze . --target widely
+```
+
+**What you'll see:** Warnings about `:has()` selectors, `startViewTransition()`, container queries, and more modern features with browser compatibility info and suggestions.
+
+Perfect for presentations, videos, or testing the tool!
+
 ## 📦 MVP Components
 
 This MVP includes:

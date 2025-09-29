@@ -1,0 +1,53 @@
+<!-- ⚠️ PROBLEMA 1: popover attribute - Chrome 114+, no Firefox/Safari -->
+<button popovertarget="info-popup">Show Info</button>
+<div id="info-popup" popover>
+  <h3>Information</h3>
+  <p>This is a native popover element</p>
+</div>
+
+<!-- ⚠️ PROBLEMA 2: inert attribute - Chrome 102+, Firefox 112+ -->
+<div inert>
+  <p>This content is inert and cannot be interacted with</p>
+  <button>This button is disabled by inert</button>
+</div>
+
+<!-- ⚠️ PROBLEMA 3: loading="lazy" - No en Safari < 15.4 en algunos casos -->
+<img src="hero-image.jpg"
+     alt="Hero"
+     loading="lazy"
+     decoding="async">
+
+<!-- ⚠️ PROBLEMA 4: dialog element - No en Safari < 15.4 -->
+<dialog id="modal">
+  <h2>Native Dialog Modal</h2>
+  <p>This is a native HTML dialog element</p>
+  <button onclick="this.closest('dialog').close()">Close</button>
+</dialog>
+
+<!-- ⚠️ PROBLEMA 5: inputmode attribute - Soporte variable -->
+<input type="text"
+       inputmode="numeric"
+       placeholder="Enter number">
+
+<input type="email"
+       inputmode="email"
+       placeholder="Enter email">
+
+<!-- ⚠️ PROBLEMA 6: autocomplete nuevos valores - Soporte parcial -->
+<form>
+  <input type="text"
+         autocomplete="one-time-code"
+         placeholder="OTP Code">
+
+  <input type="text"
+         autocomplete="webauthn"
+         placeholder="Passkey">
+</form>
+
+<!-- Elementos normales para contrastar -->
+<div class="normal-content">
+  <h1>{{ title }}</h1>
+  <p>This is normal content that works everywhere</p>
+  <button (click)="animatePageTransition()">Test Transition</button>
+  <button (click)="copyToClipboard('Hello World')">Copy Text</button>
+</div>
