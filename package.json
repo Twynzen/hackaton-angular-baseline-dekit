@@ -11,7 +11,12 @@
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "eslint . --ext .ts,.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "demo": "node packages/cli-builder/dist/cli.js analyze ./demo-project --target widely --output html --project-name \"Angular Demo\"",
+    "demo:console": "node packages/cli-builder/dist/cli.js analyze ./demo-project --target widely",
+    "demo:quick": "node packages/cli-builder/dist/cli.js analyze ./demo-project --target widely --output html",
+    "validate": "node packages/cli-builder/dist/cli.js validate-registry",
+    "cli": "node packages/cli-builder/dist/cli.js"
   },
   "devDependencies": {
     "@types/css-tree": "^2.3.10",

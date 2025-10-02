@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import * as path from 'path';
 import { AngularBaselineAnalyzer, BaselineConfig } from '@angular-baseline-devkit/analyzer-core';
-import { JsonReporter } from '@angular-baseline-devkit/reporters';
+import { JsonReporter, HtmlReporter } from '@angular-baseline-devkit/reporters';
 
 const program = new Command();
 
@@ -17,10 +17,11 @@ program
   .description('Analyze a project for baseline compatibility')
   .argument('[path]', 'Project path to analyze', '.')
   .option('--target <target>', 'Baseline target (widely, newly, or year)', 'widely')
-  .option('--output <format>', 'Output format (json)', 'json')
+  .option('--output <format>', 'Output format (json, html, both)', 'console')
   .option('--strict', 'Treat warnings as errors', false)
   .option('--allow <features>', 'Comma-separated list of allowed features', '')
   .option('--max-concurrency <number>', 'Maximum concurrent file analysis', '4')
+  .option('--project-name <name>', 'Project name for HTML report', '')
   .action(async (projectPath: string, options: any) => {
     try {
       console.log(`🔍 Analyzing Angular project at: ${path.resolve(projectPath)}`);
@@ -43,13 +44,17 @@ program
       };
 
       const analyzer = new AngularBaselineAnalyzer();
-      const reporter = new JsonReporter();
+      const jsonReporter = new JsonReporter();
+      const htmlReporter = new HtmlReporter();
 
       console.log(`📋 Configuration:`);
       console.log(`   Target: ${target}`);
+      console.log(`   Output: ${options.output}`);
       console.log(`   Strict mode: ${config.strict}`);
       console.log(`   Allowed features: ${allow.length > 0 ? allow.join(', ') : 'none'}`);
       console.log('');
+
+      console.log('🔍 Analyzing project...\n');
 
       // Run analysis
       const report = await analyzer.analyze({
@@ -59,17 +64,31 @@ program
       });
 
       // Generate console output
-      const consoleOutput = await reporter.generateConsoleOutput(report);
+      const consoleOutput = await jsonReporter.generateConsoleOutput(report);
       console.log(consoleOutput);
 
-      // Generate JSON report
-      if (options.output === 'json') {
-        const outputPath = path.join(projectPath, 'baseline-report', 'report.json');
-        await reporter.generateReport(report, {
-          outputPath,
+      // Generate reports based on output option
+      const outputFormat = options.output;
+
+      if (outputFormat === 'json' || outputFormat === 'both') {
+        const jsonPath = path.join(projectPath, 'baseline-report', 'report.json');
+        await jsonReporter.generateReport(report, {
+          outputPath: jsonPath,
           projectRoot: path.resolve(projectPath)
         });
-        console.log(`📄 JSON report generated: ${outputPath}`);
+        console.log(`\n📄 JSON report generated: ${jsonPath}`);
+      }
+
+      if (outputFormat === 'html' || outputFormat === 'both') {
+        const htmlPath = path.join(projectPath, 'baseline-report', 'report.html');
+        const projectName = options.projectName || path.basename(path.resolve(projectPath));
+        await htmlReporter.generateReport(report, {
+          outputPath: htmlPath,
+          projectRoot: path.resolve(projectPath),
+          projectName
+        });
+        console.log(`\n🌐 HTML report generated: ${htmlPath}`);
+        console.log(`   Open in browser: file://${path.resolve(htmlPath)}`);
       }
 
       // Set exit code based on results
@@ -96,7 +115,7 @@ program
       console.log('🔍 Validating feature registry...');
 
       const analyzer = new AngularBaselineAnalyzer();
-      const result = analyzer.validateFeatureRegistry();
+      const result = await analyzer.validateFeatureRegistry();
 
       console.log(`✅ Valid features: ${result.valid.length}`);
       if (result.invalid.length > 0) {

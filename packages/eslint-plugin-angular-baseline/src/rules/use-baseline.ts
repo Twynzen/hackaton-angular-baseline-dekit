@@ -53,53 +53,58 @@ export const useBaseline = createRule({
 
     return {
       Program(node) {
-        try {
-          const sourceCode = context.getSourceCode();
-          const filename = context.getFilename();
-          const text = sourceCode.getText();
+        // ESLint rule functions cannot be async, so we use an IIFE
+        (async () => {
+          try {
+            const sourceCode = context.getSourceCode();
+            const filename = context.getFilename();
+            const text = sourceCode.getText();
 
-          // Analyze the current file
-          const evidence = tsAnalyzer.analyze(filename, text);
-          const diagnostics = featureMapper.mapEvidenceToDiagnostics(evidence, config);
+            // Analyze the current file
+            const evidence = tsAnalyzer.analyze(filename, text);
+            const diagnostics = await featureMapper.mapEvidenceToDiagnostics(evidence, config);
 
-          // Report each diagnostic as an ESLint error/warning
-          for (const diagnostic of diagnostics) {
-            const loc = {
-              start: {
-                line: diagnostic.range.start.line,
-                column: diagnostic.range.start.col
-              },
-              end: {
-                line: diagnostic.range.end.line,
-                column: diagnostic.range.end.col
+            // Report each diagnostic as an ESLint error/warning
+            for (const diagnostic of diagnostics) {
+              const loc = {
+                start: {
+                  line: diagnostic.range.start.line,
+                  column: diagnostic.range.start.col
+                },
+                end: {
+                  line: diagnostic.range.end.line,
+                  column: diagnostic.range.end.col
+                }
+              };
+
+              let message = diagnostic.message;
+              if (diagnostic.suggestions && diagnostic.suggestions.length > 0) {
+                const suggestion = diagnostic.suggestions[0];
+                message += `. Suggestion: ${suggestion.title}`;
+                if (suggestion.note) {
+                  message += ` (${suggestion.note})`;
+                }
               }
-            };
 
-            let message = diagnostic.message;
-            if (diagnostic.suggestions && diagnostic.suggestions.length > 0) {
-              const suggestion = diagnostic.suggestions[0];
-              message += `. Suggestion: ${suggestion.title}`;
-              if (suggestion.note) {
-                message += ` (${suggestion.note})`;
-              }
+              context.report({
+                node,
+                loc,
+                messageId: diagnostic.suggestions?.length
+                  ? 'baselineViolationWithSuggestion'
+                  : 'baselineViolation',
+                data: {
+                  message: diagnostic.message,
+                  suggestion: diagnostic.suggestions?.[0]?.title || ''
+                }
+              });
             }
-
-            context.report({
-              node,
-              loc,
-              messageId: diagnostic.suggestions?.length
-                ? 'baselineViolationWithSuggestion'
-                : 'baselineViolation',
-              data: {
-                message: diagnostic.message,
-                suggestion: diagnostic.suggestions?.[0]?.title || ''
-              }
-            });
+          } catch (error) {
+            // Silently ignore analysis errors in ESLint context
+            console.warn('ESLint baseline rule analysis failed:', error);
           }
-        } catch (error) {
-          // Silently ignore analysis errors in ESLint context
-          console.warn('ESLint baseline rule analysis failed:', error);
-        }
+        })().catch(err => {
+          console.warn('ESLint baseline rule async execution failed:', err);
+        });
       }
     };
   }

@@ -38,7 +38,7 @@ export class AngularBaselineAnalyzer {
     }
 
     // Map evidence to diagnostics
-    const diagnostics = this.featureMapper.mapEvidenceToDiagnostics(evidence, options.config);
+    const diagnostics = await this.featureMapper.mapEvidenceToDiagnostics(evidence, options.config);
 
     // Generate summary
     const summary = {
@@ -105,7 +105,7 @@ export class AngularBaselineAnalyzer {
         case '.ts':
           return this.tsAnalyzer.analyze(filePath, content);
         case '.html':
-          return this.templateAnalyzer.analyze(filePath, content);
+          return await this.templateAnalyzer.analyze(filePath, content);
         case '.css':
         case '.scss':
           return this.cssAnalyzer.analyze(filePath, content);
@@ -127,11 +127,11 @@ export class AngularBaselineAnalyzer {
   }
 
   // Validation method to check feature registry against web-features
-  validateFeatureRegistry(): { valid: string[]; invalid: string[] } {
+  async validateFeatureRegistry(): Promise<{ valid: string[]; invalid: string[] }> {
     const { getAllFeatures } = require('./feature-registry');
     const features = getAllFeatures();
     const featureIds = features.map((f: any) => f.featureId);
 
-    return this.baselineProvider.validateFeatureIds(featureIds);
+    return await this.baselineProvider.validateFeatureIds(featureIds);
   }
 }

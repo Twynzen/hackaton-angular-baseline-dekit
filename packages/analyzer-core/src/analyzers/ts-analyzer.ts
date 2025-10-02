@@ -44,6 +44,50 @@ export class TSAnalyzer {
         }
       });
 
+      // Analyze standalone identifiers (e.g., fetch, structuredClone, requestIdleCallback)
+      sourceFile.getDescendantsOfKind(SyntaxKind.Identifier).forEach(node => {
+        const identifierName = node.getText();
+
+        // Check for global functions and APIs
+        const globalAPIs = [
+          'fetch', 'Request', 'Response', 'Headers', 'AbortController',
+          'FormData', 'URLSearchParams',
+          'structuredClone', 'queueMicrotask', 'requestIdleCallback',
+          'requestAnimationFrame', 'createImageBitmap',
+          'OffscreenCanvas', 'ImageBitmap', 'WebSocket',
+          'PerformanceObserver', 'ValidityState',
+          'localStorage', 'sessionStorage', 'IndexedDB',
+          'Cache', 'CacheStorage',
+          'MediaRecorder', 'AudioContext',
+          'HTMLMediaElement', 'HTMLVideoElement', 'HTMLAudioElement',
+          'ShadowRoot', 'HTMLSlotElement'
+        ];
+
+        if (globalAPIs.includes(identifierName)) {
+          const featureId = getFeatureId(identifierName);
+          if (featureId) {
+            // Only add if it's actually used (not just a type reference)
+            const parent = node.getParent();
+            if (parent && !Node.isTypeReference(parent)) {
+              evidence.push(this.createEvidence(node, filePath, identifierName, featureId));
+            }
+          }
+        }
+      });
+
+      // Analyze call expressions (e.g., customElements.define())
+      sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).forEach(node => {
+        const expression = node.getExpression();
+        if (Node.isPropertyAccessExpression(expression)) {
+          const fullAccess = this.getFullPropertyAccess(expression);
+          const featureId = getFeatureId(fullAccess);
+
+          if (featureId) {
+            evidence.push(this.createEvidence(node, filePath, fullAccess, featureId));
+          }
+        }
+      });
+
       // Analyze inline Angular templates and styles
       this.analyzeInlineComponents(sourceFile, filePath, evidence);
 

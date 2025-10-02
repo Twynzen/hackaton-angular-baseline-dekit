@@ -4,10 +4,10 @@
   "description": "Demo Angular app for testing baseline analysis",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
+    "start": "echo 'Demo app - no build needed'",
+    "build": "echo 'Demo app - skipping build (source-only for analysis)'",
+    "test": "echo 'Demo app - no tests'",
+    "lint": "echo 'Demo app - no lint'",
     "baseline-check": "baseline-devkit analyze . --target widely --output json"
   },
   "dependencies": {

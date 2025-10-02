@@ -1,12 +1,25 @@
-import { parseTemplate, TmplAstElement, TmplAstTextAttribute } from '@angular/compiler';
-import { FeatureEvidence } from '../types';
-import { getFeatureId } from '../feature-registry';
+import { FeatureEvidence } from '../types.js';
+import { getFeatureId } from '../feature-registry.js';
+
+let angularCompiler: any = null;
+
+async function loadAngularCompiler() {
+  if (!angularCompiler) {
+    // Use Function constructor to prevent TypeScript from transforming import()
+    const dynamicImport = new Function('specifier', 'return import(specifier)');
+    angularCompiler = await dynamicImport('@angular/compiler');
+  }
+  return angularCompiler;
+}
 
 export class TemplateAnalyzer {
-  analyze(filePath: string, content: string): FeatureEvidence[] {
+  async analyze(filePath: string, content: string): Promise<FeatureEvidence[]> {
     const evidence: FeatureEvidence[] = [];
 
     try {
+      const compiler = await loadAngularCompiler();
+      const { parseTemplate, TmplAstElement } = compiler;
+
       const parsed = parseTemplate(content, filePath, {
         preserveWhitespaces: false,
         collectCommentNodes: false
@@ -16,7 +29,7 @@ export class TemplateAnalyzer {
         console.warn(`Template parsing errors in ${filePath}:`, parsed.errors);
       }
 
-      this.visitNodes(parsed.nodes, evidence, filePath, content);
+      this.visitNodes(parsed.nodes, evidence, filePath, content, TmplAstElement);
 
     } catch (error) {
       console.warn(`Failed to parse Angular template ${filePath}:`, error);
@@ -25,7 +38,7 @@ export class TemplateAnalyzer {
     return evidence;
   }
 
-  private visitNodes(nodes: any[], evidence: FeatureEvidence[], filePath: string, content: string): void {
+  private visitNodes(nodes: any[], evidence: FeatureEvidence[], filePath: string, content: string, TmplAstElement: any): void {
     for (const node of nodes) {
       if (node instanceof TmplAstElement) {
         this.analyzeElement(node, evidence, filePath, content);
@@ -33,27 +46,34 @@ export class TemplateAnalyzer {
 
       // Recursively visit child nodes
       if (node.children) {
-        this.visitNodes(node.children, evidence, filePath, content);
+        this.visitNodes(node.children, evidence, filePath, content, TmplAstElement);
       }
     }
   }
 
-  private analyzeElement(element: TmplAstElement, evidence: FeatureEvidence[], filePath: string, content: string): void {
-    // Check for HTML attributes that map to web features
-    element.attributes.forEach((attr: TmplAstTextAttribute) => {
-      const featureId = getFeatureId(attr.name);
-      if (featureId) {
-        evidence.push(this.createEvidence(
-          attr,
-          filePath,
-          `${attr.name}="${attr.value}"`,
-          featureId,
-          content
-        ));
+  private analyzeElement(element: any, evidence: FeatureEvidence[], filePath: string, content: string): void {
+    // Check for HTML global attributes that map to web features
+    const modernAttributes = [
+      'popover', 'inert', 'loading', 'contenteditable',
+      'enterkeyhint', 'inputmode', 'hidden', 'draggable'
+    ];
+
+    element.attributes.forEach((attr: any) => {
+      if (modernAttributes.includes(attr.name)) {
+        const featureId = getFeatureId(attr.name);
+        if (featureId) {
+          evidence.push(this.createEvidence(
+            attr,
+            filePath,
+            `${attr.name}="${attr.value}"`,
+            featureId,
+            content
+          ));
+        }
       }
     });
 
-    // Check for specific elements that might indicate feature usage
+    // Check for specific HTML5 elements
     const elementFeatures = this.getElementFeatures(element.name);
     elementFeatures.forEach(({ code, featureId }) => {
       evidence.push(this.createEvidence(
@@ -65,15 +85,15 @@ export class TemplateAnalyzer {
       ));
     });
 
-    // Check for Angular-specific attributes
+    // Check for Angular property bindings with modern attributes
     element.inputs.forEach((input: any) => {
-      if (input.name === 'popover') {
-        const featureId = getFeatureId('popover');
+      if (modernAttributes.includes(input.name)) {
+        const featureId = getFeatureId(input.name);
         if (featureId) {
           evidence.push(this.createEvidence(
             input,
             filePath,
-            `[popover]="${input.value}"`,
+            `[${input.name}]="${input.value}"`,
             featureId,
             content
           ));
@@ -85,9 +105,13 @@ export class TemplateAnalyzer {
   private getElementFeatures(elementName: string): Array<{ code: string; featureId: string }> {
     const features: Array<{ code: string; featureId: string }> = [];
 
-    // Check for specific HTML elements that indicate feature usage
-    if (elementName === 'dialog') {
-      const featureId = getFeatureId('dialog');
+    // Map of modern HTML5 elements to feature IDs
+    const modernElements = [
+      'dialog', 'details', 'summary'
+    ];
+
+    if (modernElements.includes(elementName)) {
+      const featureId = getFeatureId(elementName);
       if (featureId) {
         features.push({ code: `<${elementName}>`, featureId });
       }

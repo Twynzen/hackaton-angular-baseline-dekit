@@ -1,5 +1,4 @@
-import features from 'web-features';
-import { BaselineStatus } from './types';
+import { BaselineStatus } from './types.js';
 
 export interface BaselineInfo {
   status: BaselineStatus;
@@ -7,10 +6,32 @@ export interface BaselineInfo {
   year?: number;
 }
 
+let features: any = null;
+
+async function loadWebFeatures() {
+  if (!features) {
+    // Use Function constructor to prevent TypeScript from transforming import()
+    const dynamicImport = new Function('specifier', 'return import(specifier)');
+    const mod = await dynamicImport('web-features');
+    features = mod.default || mod;
+  }
+  return features;
+}
+
 export class BaselineProvider {
   private cache = new Map<string, BaselineInfo>();
+  private featuresLoaded = false;
 
-  getBaselineStatus(featureId: string): BaselineInfo {
+  async ensureFeaturesLoaded() {
+    if (!this.featuresLoaded) {
+      await loadWebFeatures();
+      this.featuresLoaded = true;
+    }
+  }
+
+  async getBaselineStatus(featureId: string): Promise<BaselineInfo> {
+    await this.ensureFeaturesLoaded();
+
     if (this.cache.has(featureId)) {
       return this.cache.get(featureId)!;
     }
@@ -42,8 +63,8 @@ export class BaselineProvider {
     return result;
   }
 
-  isBaselineSupported(featureId: string, target: 'widely' | 'newly' | number): boolean {
-    const info = this.getBaselineStatus(featureId);
+  async isBaselineSupported(featureId: string, target: 'widely' | 'newly' | number): Promise<boolean> {
+    const info = await this.getBaselineStatus(featureId);
 
     if (typeof target === 'number') {
       return info.year ? info.year <= target : false;
@@ -59,7 +80,9 @@ export class BaselineProvider {
     }
   }
 
-  validateFeatureIds(featureIds: string[]): { valid: string[]; invalid: string[] } {
+  async validateFeatureIds(featureIds: string[]): Promise<{ valid: string[]; invalid: string[] }> {
+    await this.ensureFeaturesLoaded();
+
     const valid: string[] = [];
     const invalid: string[] = [];
 

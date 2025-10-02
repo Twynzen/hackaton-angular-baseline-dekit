@@ -16,7 +16,8 @@
     "postcss": "^8.4.0",
     "css-tree": "^2.3.0",
     "web-features": "^0.8.0",
-    "browserslist": "^4.22.0"
+    "browserslist": "^4.22.0",
+    "glob": "^10.0.0"
   },
   "devDependencies": {
     "vitest": "^1.0.0",
